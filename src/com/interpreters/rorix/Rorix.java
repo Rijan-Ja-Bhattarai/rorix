@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class Rorix {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException{
         if (args.length > 1) {
             System.out.println("Usage: rorix [script]");
             System.exit(64); // Command was used incorrectly i.e. wrong number of arguments
@@ -20,5 +20,10 @@ public class Rorix {
         else {
             runPrompt();
         }
+    }
+    public static void runFile(String path) throws IOException {
+        byte[] bytes = Files.readAllBytes(Paths.get(path));
+        run(new String(bytes, Charset.defaultCharset()));
+        return ;
     }
 }
