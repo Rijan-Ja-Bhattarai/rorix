@@ -1,8 +1,6 @@
 package com.interpreters.rorix;
 
 import java.util.List;
-import java.util.HashMap;
-import java.util.Map;
 import  java.util.ArrayList;
 
 import static com.interpreters.rorix.TokenType.*;
@@ -38,28 +36,28 @@ public class Scanner {
         char c = advance();
 
         switch (c) {
-            case "(": addToken(LEFT_PAREN); break;
-            case ")": addToken(RIGHT_PAREN); break;
-            case "[": addToken(LEFT_BRACE); break;
-            case "]": addToken(RIGHT_BRACE); break;
-            case ",": addToken(COMMA); break;
-            case ".": addToken(DOT); break;
-            case "-": addToken(MINUS); break;
-            case ";": addToken(SEMICOLON); break;
-            case "*": addToken(STAR); break;
+            case '(': addToken(LEFT_PAREN); break;
+            case ')': addToken(RIGHT_PAREN); break;
+            case '[': addToken(LEFT_BRACE); break;
+            case ']': addToken(RIGHT_BRACE); break;
+            case ',': addToken(COMMA); break;
+            case '.': addToken(DOT); break;
+            case '-': addToken(MINUS); break;
+            case ';': addToken(SEMICOLON); break;
+            case '*': addToken(STAR); break;
 
             // Operators
-            case "!":
-                addToken(match("=") ? BANG_EQUAL : BANG);
+            case '!':
+                addToken(match('=') ? BANG_EQUAL : BANG);
                 break;
-            case "=":
-                addToken(match("=") ? EQUAL_EQUAL : EQUAL);
+            case '=':
+                addToken(match('=') ? EQUAL_EQUAL : EQUAL);
                 break;
-            case "<":
-                addToken(match("=") ? LESS_EQUAL : LESS);
+            case '<':
+                addToken(match('=') ? LESS_EQUAL : LESS);
                 break;
-            case ">":
-                addToken(match("=") ? GREATER_EQUAL : GREATER);
+            case '>':
+                addToken(match('=') ? GREATER_EQUAL : GREATER);
                 break;
 
             default:
@@ -81,9 +79,12 @@ public class Scanner {
         return source.charAt(current++);
     }
 
-    private boolean match(char token) {
+    private boolean match(char expected) {
+        if (isAtEnd()) return false;
+        if (source.charAt(current) != expected) return false;
 
-        return;
+        current++;
+        return true;
     }
 
 }
