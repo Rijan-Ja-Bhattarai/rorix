@@ -89,6 +89,30 @@ public class Scanner {
                     // Skip the entire line if it is a comment
                     while (peek() != '\n' && !isAtEnd()) advance();
                 }
+                // Add Support for Multi-line Comments
+                else if (match('*')) {
+                    while (!isAtEnd()) {
+                        if (peek() == '\n') line++; // Multiline Comments can span across lines
+                        advance();
+                        // Check for error cases 
+                        if (isAtEnd()) {
+                            Rorix.error(line, "Unterminated Multi line comment. Syntax: /* Comment */");
+                            System.exit(65);
+                        }
+                        // Rorix Does not Support Nested Multi-Line Comments
+                        if (peek() == '/' && peekNext() == '*') {
+                            Rorix.error(line, "Nested Multi Line Comments are not Supported");
+                            System.exit(65);
+                        }
+
+                        // Consume Closing of multi line comments
+                        if (peek() == '*' && peekNext() == '/') {
+                            advance();
+                            advance();
+                            break;
+                        }
+                    }
+                }
                 else {
                     addToken(SLASH);
                 }
